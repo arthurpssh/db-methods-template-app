@@ -1,0 +1,83 @@
+==========================================
+DEPENDÊNCIAS
+==========================================
+/node_modules
+/.pnp
+.pnp.js
+==========================================
+VARIÁVEIS DE AMBIENTE (CRÍTICO PARA SEGURANÇA)
+==========================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*
+Permite que o arquivo de exemplo seja commitado
+!.env.example
+==========================================
+CHAVES E CREDENCIAIS (GOOGLE APIs E OUTROS)
+==========================================
+Ignora arquivos JSON de credenciais do Google Cloud/Workspace
+credentials.json
+client_secret.json
+token.json
+-key.json service-account.json gcp-.json
+firebase-*.json
+Se você tiver algum json estático que PRECISE subir, adicione uma exceção depois com "!"
+Exemplo: !meu-arquivo-seguro.json
+==========================================
+LOGS
+==========================================
+logs
+.log npm-debug.log
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+==========================================
+BUILDS / COMPILAÇÕES
+==========================================
+Preparando para caso você adicione TypeScript ou Bundlers no futuro
+dist/
+build/
+out/
+.next/
+.nuxt/
+==========================================
+TESTES E COBERTURA
+==========================================
+coverage/
+.nyc_output/
+==========================================
+CACHES DE DESENVOLVIMENTO
+==========================================
+.npm
+.eslintcache
+.stylelintcache
+.tsbuildinfo
+.node_repl_history
+==========================================
+SISTEMA OPERACIONAL
+==========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+==========================================
+EDITORES E IDEs
+==========================================
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.suo
+.ntvs
+*.njsproj
+*.sln
+*.sw?
+*.bak
