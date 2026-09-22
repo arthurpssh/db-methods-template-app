@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Users List</title>
+  <link rel="stylesheet" href="/css/globals.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>Users Management</h2>
+      <a href="/users/create" class="btn btn-primary">Create User</a>
+    </div>
+
+    <form id="search-form">
+      <div class="form-group">
+        <label for="email-filter">Filter by Email</label>
+        <input type="text" id="email-filter" name="email" placeholder="Enter email to search...">
+        <div id="search-error" class="error-message">You must provide at least one filter.</div>
+      </div>
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <ul class="user-list" id="user-list">
+      <!-- Users will be injected here by JS -->
+    </ul>
+  </div>
+  <script src="/users/script.js"></script>
+</body>
+</html>

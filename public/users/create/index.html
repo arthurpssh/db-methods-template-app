@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create User</title>
+  <link rel="stylesheet" href="/css/globals.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>Create New User</h2>
+    </div>
+
+    <form id="create-form">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="value">Value</label>
+        <input type="number" id="value" name="value" step="0.01" required>
+      </div>
+      <div class="user-actions">
+        <button type="submit" class="btn btn-primary">Create User</button>
+        <button type="button" class="btn btn-secondary" id="btn-cancel">Cancel</button>
+      </div>
+    </form>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
