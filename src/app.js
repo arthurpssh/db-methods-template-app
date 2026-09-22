@@ -12,8 +12,10 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 // Importar rotas
 const userRoutes = require('./routes/userRoutes');
+const viewRoutes = require('./routes/viewRoutes');
 
 // Definir rotas principais
-app.use('/api/user', userRoutes);
+app.use('/api/users', userRoutes);
+app.use('/', viewRoutes);
 
 module.exports = app;
