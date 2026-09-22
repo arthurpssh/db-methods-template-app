@@ -5,12 +5,7 @@ class UserController {
 
         const result = await UserService.getUsers(req.query)
 
-        return res.status(200).json({
-            success:true,
-            message:'Get Users | Sucesso',
-            query: req.query,
-            result: result
-        })
+        return res.status(200).json(result)
     }
 
     static async getUserById(req, res) {
@@ -22,32 +17,17 @@ class UserController {
 
         // Standard REST behavior: if not found, return 404
         if (!result) {
-            return res.status(404).json({
-                success: false,
-                message: 'Get User By ID | User not found',
-                params: req.params,
-                result: null
-            });
+            return res.status(404).json(result);
         }
 
-        return res.status(200).json({
-            success: true,
-            message: 'Get User By ID | Success',
-            params: req.params,
-            result: result
-        });
+        return res.status(200).json(result);
     }
 
     static async createUser(req, res) {
         // Extracts the payload from the request body
         const result = await UserService.createUser(req.body);
 
-        return res.status(201).json({
-            success: true,
-            message: 'Create User | Sucesso',
-            query: req.query,
-            result: result
-        });
+        return res.status(201).json(result);
     }
 
     static async updateUser(req, res) {
@@ -55,12 +35,7 @@ class UserController {
         const { id } = req.params;
         const result = await UserService.updateUser(id, req.body);
 
-        return res.status(200).json({
-            success: true,
-            message: 'Update User | Sucesso',
-            query: req.query,
-            result: result
-        });
+        return res.status(200).json(result);
     }
 
     static async deleteUser(req, res) {
@@ -68,12 +43,7 @@ class UserController {
         const { id } = req.params;
         const result = await UserService.deleteUser(id);
 
-        return res.status(200).json({
-            success: true,
-            message: 'Delete User | Sucesso',
-            params: req.params,
-            result: result
-        });
+        return res.status(200).json(result);
     }
 
 }

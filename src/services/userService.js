@@ -2,7 +2,7 @@
 const SheetsDB = require('../utils/SheetsDB');
 
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
-const SHEET_NAME = 'Users'; // Replace with your exact sheet (tab) name
+const SHEET_NAME = 'users'; // Replace with your exact sheet (tab) name
 
 /**
  * Fetches all users or filters based on a query
@@ -11,6 +11,14 @@ const SHEET_NAME = 'Users'; // Replace with your exact sheet (tab) name
 async function getUsers(filters = {}) {
   const users = await SheetsDB.getRows(SPREADSHEET_ID, SHEET_NAME, filters);
   return users;
+}
+
+async function getUserById(id) {
+  // We pass the id as an exact query to the SheetsDB utility
+  const results = await SheetsDB.getRows(SPREADSHEET_ID, SHEET_NAME, { id });
+  
+  // Since getRows returns an array, we return the first item (if it exists)
+  return results.length > 0 ? results[0] : null;
 }
 
 /**
@@ -30,7 +38,8 @@ async function getUserByEmail(email) {
 async function createUser(userData) {
   // Here you can add business rules before saving.
   // Example: check if the email already exists, generate a creation date, etc.
-  userData.createdAt = new Date().toISOString();
+  userData.id = new Date().getTime()
+  userData.created_at = new Date().toISOString();
   
   await SheetsDB.postRows(SPREADSHEET_ID, SHEET_NAME, userData);
   
@@ -42,11 +51,11 @@ async function createUser(userData) {
  * Example query: { email: 'john@email.com' }
  * Example updateData: { department: 'Marketing', status: 'Inactive' }
  */
-async function updateUser(email, updateData) {
+async function updateUser(id, updateData) {
   const affectedRows = await SheetsDB.patchRows(
     SPREADSHEET_ID, 
     SHEET_NAME, 
-    { email }, // Filter for who will be updated
+    { id }, // Filter for who will be updated
     updateData // The data to update
   );
 
@@ -56,13 +65,15 @@ async function updateUser(email, updateData) {
 /**
  * Deletes a user
  */
-async function deleteUser(email) {
-  await SheetsDB.deleteRows(SPREADSHEET_ID, SHEET_NAME, { email });
+async function deleteUser(id) {
+  console.log('deleting user ' + id)
+  await SheetsDB.deleteRows(SPREADSHEET_ID, SHEET_NAME, { id });
   return true; 
 }
 
 module.exports = {
   getUsers,
+  getUserById,
   getUserByEmail,
   createUser,
   updateUser,

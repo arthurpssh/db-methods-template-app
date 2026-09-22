@@ -4,6 +4,7 @@ const userController = require('../controllers/userController.js');
 
 // Route to fetch users (with optional query parameters for filtering)
 router.get('/', userController.getUsers);
+router.get('/:id', userController.getUserById);
 
 // Route to create a new user
 router.post('/', userController.createUser);

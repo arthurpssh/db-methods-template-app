@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!response.ok) throw new Error('Failed to fetch users');
       
       const users = await response.json();
+      
       renderUsers(users);
     } catch (error) {
       console.error(error);
@@ -58,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
       li.innerHTML = `
         <div class="user-info">
           <strong>${user.email}</strong>
-          <span>ID: ${user.id} | Value: ${user.value} | Created: ${user.createdAt}</span>
+          <span>ID: ${user.id} | Value: ${user.value} | Created: ${user.created_at}</span>
         </div>
         <div class="user-actions">
           <button class="btn btn-primary" onclick="editUser('${user.id}')">Edit</button>
