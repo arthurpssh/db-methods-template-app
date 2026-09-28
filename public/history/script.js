@@ -12,6 +12,7 @@ async function fetchHistory() {
   jsonViewer.textContent = 'Carregando...';
 
   try {
+    console.log(dateInput)
     const response = await fetch(`/api/history?date=${dateInput}`);
     const result = await response.json();
 

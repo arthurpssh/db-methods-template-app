@@ -11,6 +11,9 @@ class HistoryService {
    */
   static async getDailyHistory(dateStr) {
     try {
+      console.log(TEST_SSID)
+      console.log(SHEET_NAME)
+      console.log(dateStr)
       // Passamos 'day' como a coluna de busca e 'file_id' como a coluna de ID
       const jsonData = await DriveSheetsDB.getJsonByIndex(
         TEST_SSID,
