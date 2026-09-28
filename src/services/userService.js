@@ -2,21 +2,21 @@
 const SheetsDB = require('../utils/SheetsDB');
 
 if (!process.env.USER_SPREADSHEET_ID) throw new Error('USER_SPREADSHEET_ID environment variable is required');
-const SPREADSHEET_ID = process.env.USER_SPREADSHEET_ID;
-const SHEET_NAME = process.env.USER_SHEET_NAME;
+const USER_SPREADSHEET_ID = process.env.USER_SPREADSHEET_ID;
+const USER_SHEET_NAME = process.env.USER_SHEET_NAME;
 
 /**
  * Fetches all users or filters based on a query
  * Example filters: { status: 'Active', department: 'Sales' }
  */
 async function getUsers(filters = {}) {
-  const users = await SheetsDB.getRows(SPREADSHEET_ID, SHEET_NAME, filters);
+  const users = await SheetsDB.getRows(USER_SPREADSHEET_ID, USER_SHEET_NAME, filters);
   return users;
 }
 
 async function getUserById(id) {
   // We pass the id as an exact query to the SheetsDB utility
-  const results = await SheetsDB.getRows(SPREADSHEET_ID, SHEET_NAME, { id });
+  const results = await SheetsDB.getRows(USER_SPREADSHEET_ID, USER_SHEET_NAME, { id });
   
   // Since getRows returns an array, we return the first item (if it exists)
   return results.length > 0 ? results[0] : null;
@@ -27,7 +27,7 @@ async function getUserById(id) {
  */
 async function getUserByEmail(email) {
   // We pass the email as an exact query
-  const results = await SheetsDB.getRows(SPREADSHEET_ID, SHEET_NAME, { email });
+  const results = await SheetsDB.getRows(USER_SPREADSHEET_ID, USER_SHEET_NAME, { email });
   
   // Since getRows returns an array, we return the first item (if it exists)
   return results.length > 0 ? results[0] : null;
@@ -42,7 +42,7 @@ async function createUser(userData) {
   userData.id = new Date().getTime()
   userData.created_at = new Date().toISOString();
   
-  await SheetsDB.postRows(SPREADSHEET_ID, SHEET_NAME, userData);
+  await SheetsDB.postRows(USER_SPREADSHEET_ID, USER_SHEET_NAME, userData);
   
   return userData;
 }
@@ -54,8 +54,8 @@ async function createUser(userData) {
  */
 async function updateUser(id, updateData) {
   const affectedRows = await SheetsDB.patchRows(
-    SPREADSHEET_ID, 
-    SHEET_NAME, 
+    USER_SPREADSHEET_ID, 
+    USER_SHEET_NAME, 
     { id }, // Filter for who will be updated
     updateData // The data to update
   );
@@ -68,7 +68,7 @@ async function updateUser(id, updateData) {
  */
 async function deleteUser(id) {
   console.log('deleting user ' + id)
-  await SheetsDB.deleteRows(SPREADSHEET_ID, SHEET_NAME, { id });
+  await SheetsDB.deleteRows(USER_SPREADSHEET_ID, USER_SHEET_NAME, { id });
   return true; 
 }
 
