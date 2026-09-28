@@ -1,0 +1,86 @@
+# Preparacao — Especifico: Node.js 24 + Express + Google Sheets API
+
+## Stack deste template
+- Framework: Express 5
+- Runtime: Node.js 24
+- Storage: Google Sheets + Google Drive via googleapis
+- Sem banco de dados relacional
+
+## Regras especificas
+
+- NAO adicionar Next.js, Vite ou outro framework de frontend
+- NAO adicionar Prisma, Liquibase ou qualquer ORM/migrations
+- Health check: `GET /api/health` retorna `{ status: 'ok' }` (Express handler, nao checar Google Sheets)
+- Dockerfile copia `src/` e `public/`, roda `npm ci --omit=dev`, CMD `node src/server.js`
+- Script start: `node src/server.js`
+- Env `PORT=3001` obrigatorio
+
+## Secrets
+
+Quatro secrets sao obrigatorios (injetados via AWS Secrets Manager):
+
+- `GOOGLE_CLIENT_EMAIL` — e-mail da service account
+- `GOOGLE_PRIVATE_KEY` — chave privada PEM da service account
+- `SPREADSHEET_ID` — ID da planilha Google Sheets de usuarios
+- `HISTORY_SPREADSHEET_ID` — ID da planilha de indice do historico (mapeia data → file_id no Drive)
+
+As seguintes variaveis sao configuracao (nao secret), definir diretamente no `env:` do values.yml:
+
+- `HISTORY_SHEET_NAME` — nome da aba de indice (padrao: `JSON Index`)
+
+No values.yml cada secret deve ser um `secretKeyRef` com nome no formato `{app-name}-{env-name-lowercase}`.
+
+## values.yml — Estrutura
+
+```yaml
+name: {nome-da-aplicacao}
+
+containerPort: 3001
+cpu: 0.25
+memory: 256Mi
+replicaCount: 1
+
+healthCheckPath: /api/health
+periodSeconds: 30
+timeoutSeconds: 5
+successThreshold: 2
+failureThreshold: 5
+
+env:
+  PROFILE: staging
+  PORT: "3001"
+  NEW_RELIC_ENABLED: "false"
+  GOOGLE_CLIENT_EMAIL:
+    secretKeyRef:
+      name: {nome-da-aplicacao}-google-client-email
+      key: GOOGLE_CLIENT_EMAIL
+  GOOGLE_PRIVATE_KEY:
+    secretKeyRef:
+      name: {nome-da-aplicacao}-google-private-key
+      key: GOOGLE_PRIVATE_KEY
+  SPREADSHEET_ID:
+    secretKeyRef:
+      name: {nome-da-aplicacao}-spreadsheet-id
+      key: SPREADSHEET_ID
+  HISTORY_SPREADSHEET_ID:
+    secretKeyRef:
+      name: {nome-da-aplicacao}-history-spreadsheet-id
+      key: HISTORY_SPREADSHEET_ID
+  HISTORY_SHEET_NAME: "JSON Index"
+
+lb:
+  type: internal
+  hosts:
+  - host: {nome-da-aplicacao}.hotmart.run
+    paths: ["/"]
+
+imports:
+- to: module.base-module.aws_ecr_repository.application-default-ecr[0]
+  id: "{nome-da-aplicacao}"
+```
+
+## deploy.yaml — Jobs
+
+Jobs obrigatorios: `resolve`, `build`, `infra` (needs: [build]), `deploy` (needs: [build, infra, resolve]).
+NAO ha job `liquibase` — nao ha banco de dados.
+NAO ha step `npm run build` — Express nao precisa de build step.

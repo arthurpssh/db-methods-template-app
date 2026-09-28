@@ -15,6 +15,9 @@ const userRoutes = require('./routes/userRoutes');
 const viewRoutes = require('./routes/viewRoutes');
 const historyRoutes = require('./routes/historyRoutes')
 
+// Health check
+app.get('/api/health', (req, res) => res.status(200).json({ status: 'ok' }));
+
 // Definir rotas principais
 app.use('/api/users', userRoutes);
 app.use('/', viewRoutes);

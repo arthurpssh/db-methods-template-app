@@ -1,0 +1,49 @@
+name: template-web-app-node-express-googleapi
+
+containerPort: 3001
+cpu: 0.25
+memory: 256Mi
+
+replicaCount: 1
+
+healthCheckPath: /api/health
+periodSeconds: 30
+timeoutSeconds: 5
+successThreshold: 2
+failureThreshold: 5
+
+env:
+  PROFILE: staging
+  PORT: "3001"
+  NEW_RELIC_ENABLED: "false"
+  GOOGLE_CLIENT_EMAIL:
+    secretKeyRef:
+      name: template-web-app-node-express-googleapi-google-client-email
+      key: GOOGLE_CLIENT_EMAIL
+  GOOGLE_PRIVATE_KEY:
+    secretKeyRef:
+      name: template-web-app-node-express-googleapi-google-private-key
+      key: GOOGLE_PRIVATE_KEY
+  SPREADSHEET_ID:
+    secretKeyRef:
+      name: template-web-app-node-express-googleapi-spreadsheet-id
+      key: SPREADSHEET_ID
+  HISTORY_SPREADSHEET_ID:
+    secretKeyRef:
+      name: template-web-app-node-express-googleapi-history-spreadsheet-id
+      key: HISTORY_SPREADSHEET_ID
+  HISTORY_SHEET_NAME: "JSON Index"
+
+lb:
+  type: internal
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: "https://auth.hotmart.run/verify"
+    nginx.ingress.kubernetes.io/auth-signin: "https://auth.hotmart.run/login?rd=https://$host$request_uri"
+    nginx.ingress.kubernetes.io/auth-response-headers: "X-Auth-Request-Email,X-Auth-Request-User"
+  hosts:
+  - host: template-web-app-node-express-googleapi.hotmart.run
+    paths: ["/"]
+
+imports:
+- to: module.base-module.aws_ecr_repository.application-default-ecr[0]
+  id: "template-web-app-node-express-googleapi"

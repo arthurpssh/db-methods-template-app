@@ -1,5 +1,5 @@
 {
-  "name": "teste-env",
+  "name": "template-web-app-node-express-googleapi",
   "version": "1.0.0",
   "description": "",
   "main": "src/server.js",

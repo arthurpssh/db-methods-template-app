@@ -1,8 +1,8 @@
 const DriveSheetsDB = require('../utils/DriveSheetsDB');
 
-// Configurações do seu teste
-const TEST_SSID = '12JwtYPNNYbRuM_fakcIpko2b8G1hPW9v26yCtlJnznU';
-const SHEET_NAME = 'JSON Index';
+if (!process.env.HISTORY_SPREADSHEET_ID) throw new Error('HISTORY_SPREADSHEET_ID environment variable is required');
+const HISTORY_SPREADSHEET_ID = process.env.HISTORY_SPREADSHEET_ID;
+const SHEET_NAME = process.env.HISTORY_SHEET_NAME || 'JSON Index';
 
 class HistoryService {
   /**
@@ -11,12 +11,9 @@ class HistoryService {
    */
   static async getDailyHistory(dateStr) {
     try {
-      console.log(TEST_SSID)
-      console.log(SHEET_NAME)
-      console.log(dateStr)
       // Passamos 'day' como a coluna de busca e 'file_id' como a coluna de ID
       const jsonData = await DriveSheetsDB.getJsonByIndex(
-        TEST_SSID,
+        HISTORY_SPREADSHEET_ID,
         SHEET_NAME,
         dateStr,
         'day',

@@ -1,8 +1,9 @@
 // src/services/userService.js
 const SheetsDB = require('../utils/SheetsDB');
 
-const SPREADSHEET_ID = '120IoA1xDATQ7PsZ0A_ZytM08isZVi8hM_y7SIGTXABI';
-const SHEET_NAME = 'users'; // Replace with your exact sheet (tab) name
+if (!process.env.USER_SPREADSHEET_ID) throw new Error('USER_SPREADSHEET_ID environment variable is required');
+const SPREADSHEET_ID = process.env.USER_SPREADSHEET_ID;
+const SHEET_NAME = process.env.USER_SHEET_NAME;
 
 /**
  * Fetches all users or filters based on a query
