@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Histórico de Agentes</title>
+    <link rel="stylesheet" href="../css/globals.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .search-box {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 8px;
+        }
+
+        #jsonViewer {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            max-height: 600px;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Visualizador de Histórico (DriveDB)</h1>
+
+        <div class="search-box">
+            <label for="dateInput">Data do Histórico (YYYY-MM-DD):</label>
+            <input type="text" id="dateInput" value="2026-09-24" placeholder="Ex: 2026-09-24">
+            <button onclick="fetchHistory()">Buscar JSON</button>
+        </div>
+
+        <div id="statusMessage">Aguardando busca...</div>
+
+        <!-- Aqui exibiremos o JSON retornado formatado -->
+        <pre id="jsonViewer">{}</pre>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+
+</html>

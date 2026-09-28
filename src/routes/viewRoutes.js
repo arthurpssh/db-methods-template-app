@@ -23,4 +23,9 @@ router.get('/users/edit/:id', (req, res) => {
   res.sendFile(path.join(__dirname, '../../public/users/edit/index.html'));
 });
 
+router.get('/history', (req, res) => {
+  // Aqui você poderia colocar um middleware de autenticação antes do res.sendFile
+  res.sendFile(path.join(__dirname, '../../public/history/index.html'));
+});
+
 module.exports = router;
